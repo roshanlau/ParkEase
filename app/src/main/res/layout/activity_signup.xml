@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SignupActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_signupact"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_signupact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_account_circle_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_signupact" />
+
+    <EditText
+        android:id="@+id/et_signupact_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_phone_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_name" />
+
+    <EditText
+        android:id="@+id/et_signupact_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_phone" />
+
+    <EditText
+        android:id="@+id/et_signupact_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_password_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_email" />
+
+    <EditText
+        android:id="@+id/et_signupact_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_account_box_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="IC Number"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_password" />
+
+    <EditText
+        android:id="@+id/et_signupact_dob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:height="48dp"
+        android:drawableLeft="@drawable/baseline_calendar_month_24"
+        android:drawablePadding="5dp"
+        android:elegantTextHeight="true"
+        android:ems="10"
+        android:hint="Date of Birth"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_ic" />
+
+    <Button
+        android:id="@+id/btn_signupact_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:elegantTextHeight="false"
+        android:text="SignUp"
+        app:layout_constraintEnd_toEndOf="@+id/et_signupact_dob"
+        app:layout_constraintStart_toStartOf="@+id/et_signupact_dob"
+        app:layout_constraintTop_toBottomOf="@+id/et_signupact_dob" />
+</androidx.constraintlayout.widget.ConstraintLayout>
