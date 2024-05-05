@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
 
                                 String userId = mFirebaseAuth.getUid();
-                                double userBalance = 0.00;
+                                String userBalance = "0.00";
 
                                 User newUser = new User(
                                         userId,

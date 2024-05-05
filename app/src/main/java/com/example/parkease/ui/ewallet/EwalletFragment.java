@@ -56,7 +56,8 @@ public class EwalletFragment extends Fragment {
 
         binding = FragmentEwalletBinding.inflate(inflater, container, false);
         root = binding.getRoot();
-
+        btnTopUp = root.findViewById(R.id.btn_ewallet_topup);
+        tvBalance = root.findViewById(R.id.tv_ewallet_balance);
         loadListView();
 
         ewalletViewModel.getTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {

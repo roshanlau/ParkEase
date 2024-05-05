@@ -7,7 +7,7 @@
     tools:context=".ui.TopUpDetailsActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_topup_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/et_topup_ammount"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
@@ -36,7 +36,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_topup_title" />
 
     <View
         android:id="@+id/view"
@@ -46,7 +46,7 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/et_topup_ammount" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
@@ -64,66 +64,67 @@
         app:useDefaultMargins="true">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_topup_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="10"
             app:layout_column="0"
             app:layout_row="0" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_topup_200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="200"
             app:layout_column="1"
             app:layout_row="1" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_topup_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="20
+"
             app:layout_column="1"
             app:layout_row="0" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_topup_100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="100"
             app:layout_column="0"
             app:layout_row="1" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btn_topup_30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="30"
             app:layout_column="2"
             app:layout_row="0" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btn_topup_300"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="300"
             app:layout_column="2"
             app:layout_row="1" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/btn_topup_50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="50"
             app:layout_column="3"
             app:layout_row="0" />
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/btn_topup_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="500"
             app:layout_column="3"
             app:layout_row="1" />
 
@@ -140,7 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/cardView_topup_paymentMethod"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="8dp"
@@ -153,16 +154,19 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/img_topup_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 app:srcCompat="@drawable/baseline_arrow_right_24" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/img_topup_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -174,21 +178,21 @@
                 app:srcCompat="@drawable/baseline_payments_24" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_topup_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView4"
+                android:layout_alignBottom="@+id/img_topup_payment"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@+id/imageView4"
+                android:layout_toRightOf="@+id/img_topup_payment"
                 android:text="Payment" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_topup_paymentmethod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageView4"
+                android:layout_below="@id/img_topup_payment"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -202,17 +206,20 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView_topup_paymentMethod" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" >
+        app:layout_constraintTop_toBottomOf="@+id/view3">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -222,11 +229,14 @@
                 android:id="@+id/topupsuccess_tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top up"
                 android:layout_alignParentLeft="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Top up"
                 android:textColor="#808080"
-                android:textStyle="bold"
-                android:layout_margin="8dp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv3"
@@ -236,7 +246,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toLeftOf="@+id/topupsuccess_tv_paymenttype"
+                android:layout_toLeftOf="@+id/tv_topup_total"
                 android:text="RM"
                 android:textColor="#808080"
                 android:textStyle="bold" />
@@ -245,7 +255,6 @@
                 android:id="@+id/tv5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
                 android:layout_below="@id/topupsuccess_tv_amount"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="8dp"
@@ -254,10 +263,11 @@
                 android:layout_marginBottom="8dp"
                 android:text="Total Payment"
                 android:textColor="?colorOnSurface"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/topupsuccess_tv_paymenttype"
+                android:id="@+id/tv_topup_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -274,22 +284,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/topupsuccess_tv_amount"
-                android:textSize="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toLeftOf="@+id/tv7"
+                android:layout_toLeftOf="@+id/tv_topup_totalpayment"
                 android:text="RM"
                 android:textColor="#0336FF"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv7"
+                android:id="@+id/tv_topup_totalpayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/topupsuccess_tv_paymenttype"
-                android:textSize="16dp"
+                android:layout_below="@id/tv_topup_total"
                 android:layout_alignParentRight="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -297,7 +306,8 @@
                 android:layout_marginBottom="8dp"
                 android:text="0.00"
                 android:textColor="#0336FF"
-                android:textStyle="bold"  />
+                android:textSize="16dp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -315,7 +325,7 @@
             android:padding="8dp">
 
             <Button
-                android:id="@+id/btn_pay_now"
+                android:id="@+id/btn_topup_paynow"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_centerInParent="true"

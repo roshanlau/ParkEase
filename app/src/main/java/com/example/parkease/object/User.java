@@ -10,9 +10,9 @@ public class User {
     private String userPassword;
     private String userICNumber;
     private String userDOB;
-    private double userBalance;
+    private String userBalance;
 
-    public User(String userId, String userName, String userPhoneNumber, String userEmail, String userPassword, String userICNumber, String userDOB, double userBalance) {
+    public User(String userId, String userName, String userPhoneNumber, String userEmail, String userPassword, String userICNumber, String userDOB, String userBalance) {
         this.userId = userId;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
@@ -24,6 +24,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public String getUserBalance() {
+        return userBalance;
+    }
+
+    public void setUserBalance(String userBalance) {
+        this.userBalance = userBalance;
     }
 
     public String getUserId() {

@@ -13,6 +13,20 @@
         android:theme="@style/Theme.ParkEase"
         tools:targetApi="31">
         <activity
+            android:name=".ui.TopUpSuccessfulActivity"
+            android:exported="false" />
+        <activity
+            android:name=".adapter.PaymentMethodsChildAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".adapter.PaymentMethodsParentAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PaymentMethodsDetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_payment_methods_details"
+            android:theme="@style/Theme.ParkEase" />
+        <activity
             android:name=".ui.TopUpDetailsActivity"
             android:exported="false" />
         <activity
