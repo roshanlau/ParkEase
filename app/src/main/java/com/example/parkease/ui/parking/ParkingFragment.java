@@ -35,8 +35,8 @@ public class ParkingFragment extends Fragment {
         binding = FragmentParkingBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textParking;
-        parkingViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+
 
         return root;
     }

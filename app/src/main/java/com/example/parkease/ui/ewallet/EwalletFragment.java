@@ -25,10 +25,15 @@ import com.example.parkease.object.Transaction;
 import com.example.parkease.ui.TopUpDetailsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EwalletFragment extends Fragment {
@@ -38,6 +43,7 @@ public class EwalletFragment extends Fragment {
     TextView tvBalance;
     ImageButton btnTopUp;
     double currentBalance;
+    List<Transaction> transactions;
 
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("users");
 
@@ -60,13 +66,39 @@ public class EwalletFragment extends Fragment {
         tvBalance = root.findViewById(R.id.tv_ewallet_balance);
         loadListView();
 
-        ewalletViewModel.getTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
+        transactions = new ArrayList<>();
+
+        Query query = FirebaseDatabase.getInstance()
+                .getReference("transactions")
+                .orderByChild("userID")
+                .equalTo(getCurrentUserID());
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChanged(List<Transaction> transactions) {
-                for (Transaction transaction: transactions)
-                    adapter.insert(transaction.getTransactionType() + "\n" + transaction.getTransactionAmount() + "\n" + transaction.getTransactionTime(), 0);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                transactions.clear();
+                adapter.clear();
+                for (DataSnapshot transactionDataSnapshot : snapshot.getChildren()) {
+                    Transaction transaction = transactionDataSnapshot.getValue(Transaction.class);
+                    transactions.add(transaction);
+                    adapter.insert(transaction.getTransactionType() + "\nRM " + String.format("%.2f", transaction.getTransactionAmount()) + "\n" + transaction.getTransactionTime(), 0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+//        ewalletViewModel.getTransactions().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
+//            @Override
+//            public void onChanged(List<Transaction> transactions) {
+//                for (Transaction transaction: transactions)
+//                    adapter.insert(transaction.getTransactionType() + "\n" + transaction.getTransactionAmount() + "\n" + transaction.getTransactionTime(), 0);
+//            }
+//        });
 
         String currentUser = ewalletViewModel.getCurrentUserID();
 
@@ -102,8 +134,11 @@ public class EwalletFragment extends Fragment {
 
     private void loadListView() {
         listview = root.findViewById(R.id.lv_ewallet_transaction);
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
         listview.setAdapter(adapter);
+    }
+    public String getCurrentUserID(){
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
 }

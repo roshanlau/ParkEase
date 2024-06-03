@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     Task<LocationSettingsResponse> task;
     Boolean locationPermissionGranted = false;
     Bundle bundle = new Bundle();
+    double longitude = 0.0;
+    double latitude = 0.0;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             return;
-        };
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -80,10 +82,13 @@ public class MainActivity extends AppCompatActivity {
 
         locationPermissionGranted = false;
 
-        createLocationRequest();
-        createLocationCallback();
-        permissionRequestInit();
-        requestPermission();
+//        createLocationRequest();
+//        createLocationCallback();
+//        permissionRequestInit();
+//        requestPermission();
+
+        bundle.putDouble("Latitude", latitude);
+        bundle.putDouble("Longitude", longitude);
 
         HomeFragment home = new HomeFragment();
         home.setArguments(bundle);
@@ -200,8 +205,9 @@ public class MainActivity extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            bundle.putDouble("Latitude", location.getLatitude());
-                            bundle.putDouble("Longitude", location.getLongitude());
+                            longitude = location.getLongitude();
+                            latitude = location.getLatitude();
+
                         }
                     }
                 });
@@ -227,8 +233,9 @@ public class MainActivity extends AppCompatActivity {
                 for (Location location : locationResult.getLocations()) {
                     // Update UI with location data
                     // ...
-                    bundle.putDouble("Latitude", location.getLatitude());
-                    bundle.putDouble("Longitude", location.getLongitude());
+                    longitude = location.getLongitude();
+                    latitude = location.getLatitude();
+                    Toast.makeText(MainActivity.this, location.getLongitude() + " " + location.getLatitude(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
