@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="16dp"
     app:cardUseCompatPadding="true"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Button"
+            android:text="Direction"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -63,11 +63,13 @@
             android:id="@+id/btn_parkingRow_reserve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Button"
+            android:text="Reserve"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_parkingRow_direction" />
+            app:layout_constraintEnd_toStartOf="@+id/btn_parkingRow_direction"
+            app:layout_constraintStart_toEndOf="@+id/tb_parkingRow_status" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

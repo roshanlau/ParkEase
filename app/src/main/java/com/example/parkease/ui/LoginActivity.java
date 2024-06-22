@@ -15,16 +15,23 @@ import android.widget.Toast;
 
 import com.example.parkease.MainActivity;
 import com.example.parkease.R;
+import com.example.parkease.object.Notification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     protected EditText etEmail, etPassword;
     protected Button btnLogin;
     protected TextView tvSignup;
+    DatabaseReference databaseNotification = FirebaseDatabase.getInstance().getReference("notifications");
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                addNotification();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -84,5 +92,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void addNotification(){
+        Date currentTime = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dateString = sdf.format(currentTime);
+        String notificationID = databaseNotification.push().getKey();
+        String message = "You sucessfully login at " + currentTime;
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Notification notification = new Notification(notificationID, userID, message, dateString);
+        databaseNotification.child(notificationID).setValue(notification);
     }
 }

@@ -21,6 +21,9 @@
         android:theme="@style/Theme.ParkEase"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ExitParkingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ParkingPaymentActivity"
             android:exported="false" />
         <activity
@@ -57,7 +60,6 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

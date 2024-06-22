@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parkease.R;
+import com.example.parkease.object.Notification;
 import com.example.parkease.object.Transaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,7 +29,7 @@ import java.util.Date;
 
 public class TopUpDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("users");
-    DatabaseReference databaseTransactions;
+    DatabaseReference databaseTransactions, databaseNotification;
     String paymentMethod;
     EditText et_amount;
     Button btn_10, btn_20, btn_30, btn_50, btn_100, btn_200, btn_300, btn_500, btn_paynow;
@@ -41,6 +42,7 @@ public class TopUpDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_top_up_details);
         DatabaseReference databaseUsers = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("users");
         databaseTransactions = FirebaseDatabase.getInstance().getReference("transactions");
+        databaseNotification = FirebaseDatabase.getInstance().getReference("notifications");
 
         et_amount = findViewById(R.id.et_topup_ammount);
         btn_10 = findViewById(R.id.btn_topup_10);
@@ -176,6 +178,7 @@ public class TopUpDetailsActivity extends AppCompatActivity implements View.OnCl
                                             // Now you have the current hour and minute
                                             //String currentTime = hour + ":" + minute;
                                             addTransaction(dateString);
+                                            addNotification(dateString);
                                             Intent intent = new Intent(TopUpDetailsActivity.this, TopUpSuccessfulActivity.class);
                                             intent.putExtra("amount", tvTotalPayment.getText().toString());
                                             intent.putExtra("paymentType", tvPaymentMethod.getText().toString());
@@ -206,5 +209,17 @@ public class TopUpDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
 
+    }
+    private void addNotification(String currentTime){
+        try{
+            String notificationID = databaseNotification.push().getKey();
+            String message = "You sucessfully top up " + tvTotalPayment.getText().toString() + " at " + currentTime;
+            String notificationTime = currentTime;
+            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Notification notification = new Notification(notificationID, userID, message, notificationTime);
+            databaseNotification.child(notificationID).setValue(notification);
+        }catch (NumberFormatException e){
+            // does nothing
+        }
     }
 }

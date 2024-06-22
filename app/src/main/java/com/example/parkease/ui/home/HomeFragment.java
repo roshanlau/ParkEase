@@ -29,6 +29,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.parkease.CaptureActivityPortrait;
 import com.example.parkease.R;
 import com.example.parkease.databinding.FragmentHomeBinding;
+import com.example.parkease.object.Parking;
+import com.example.parkease.ui.ExitParkingActivity;
 import com.example.parkease.ui.ParkingPaymentActivity;
 import com.example.parkease.ui.TopUpSuccessfulActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,6 +41,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -133,9 +136,18 @@ public class HomeFragment extends Fragment {
                             Toast.makeText(getActivity(), "Parking ID not found", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        Intent startIntent = new Intent(getActivity(), ParkingPaymentActivity.class);
-                        startIntent.putExtra("parkingID", intentResult.getContents());
-                        startActivity(startIntent);
+                        Parking parking = task.getResult().getValue(Parking.class);
+                        if(parking.getStatus() == true && parking.getCurrentUser().equals(getCurrentUserID())){
+                            //exit parking
+                            Intent startIntent = new Intent(getActivity(), ExitParkingActivity.class);
+                            startIntent.putExtra("parkingID", intentResult.getContents());
+                            startActivity(startIntent);
+                        }else{
+                            // force overwrite
+                            Intent startIntent = new Intent(getActivity(), ParkingPaymentActivity.class);
+                            startIntent.putExtra("parkingID", intentResult.getContents());
+                            startActivity(startIntent);
+                        }
                     }
                 });
             }else{
@@ -254,5 +266,8 @@ public class HomeFragment extends Fragment {
             // open location setting
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
+    }
+    public String getCurrentUserID(){
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }

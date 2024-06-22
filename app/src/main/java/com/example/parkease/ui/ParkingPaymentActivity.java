@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.parkease.MainActivity;
 import com.example.parkease.R;
+import com.example.parkease.object.Notification;
 import com.example.parkease.object.Parking;
 import com.example.parkease.object.Transaction;
+import com.example.parkease.object.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,7 +52,10 @@ public class ParkingPaymentActivity extends AppCompatActivity {
 
     DatabaseReference databaseTransactions = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("transactions");
     DatabaseReference databaseParkings = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("parking");
+    DatabaseReference databaseNotification = FirebaseDatabase.getInstance("https://parkease-1a60f-default-rtdb.firebaseio.com/").getReference("notifications");
     Parking currentParking;
+    String address;
+    User currentUser = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,8 @@ public class ParkingPaymentActivity extends AppCompatActivity {
 
         tvParkingID.setText(parkingID);
 
+
+
         databaseParkings.child(parkingID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -77,13 +84,21 @@ public class ParkingPaymentActivity extends AppCompatActivity {
                     return;
                 }
                 currentParking = task.getResult().getValue(Parking.class);
+                address = getAddress(currentParking.getLatitude(), currentParking.getLongitude());
                 tvPrice.setText(df.format(currentParking.getPrice()));
-                tvLocation.setText(getAddress(currentParking.getLatitude(), currentParking.getLongitude()));
+                tvLocation.setText(address);
             }
         });
 
 
-        String currentUser = getCurrentUserID();
+        String currentUserID = getCurrentUserID();
+
+        databaseUsers.child(currentUserID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                currentUser = task.getResult().getValue(User.class);
+            }
+        });
 
 
 
@@ -118,7 +133,7 @@ public class ParkingPaymentActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseUsers.child(currentUser).child("userBalance").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                databaseUsers.child(currentUserID).child("userBalance").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
@@ -126,16 +141,26 @@ public class ParkingPaymentActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Date currentTime = new Date();
+
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                        String dateString = sdf.format(currentTime);
+                        Date currentTime = new Date();
+                        Date endTime = new Date(currentTime.getTime() + Integer.parseInt(tvTime.getText().toString()) * 1000 * 60);
 
                         String currentBalance = task.getResult().getValue(String.class);
 
                         double newValue = Double.parseDouble(currentBalance) - Double.parseDouble(tvPrice.getText().toString());
 
-                        databaseUsers.child(currentUser).child("userBalance").setValue(String.valueOf(newValue));
-                        addTransaction(dateString);
+                        databaseUsers.child(currentUserID).child("userBalance").setValue(String.valueOf(newValue));
+                        databaseParkings.child(parkingID).child("status").setValue(true);
+                        databaseParkings.child(parkingID).child("startTime").setValue(sdf.format(currentTime));
+                        databaseParkings.child(parkingID).child("endTime").setValue(sdf.format(endTime));
+                        databaseParkings.child(parkingID).child("currentUser").setValue(currentUserID);
+
+                        currentParking.addParkingHistory(currentUser.getUserName() + " " + currentUserID + " " + sdf.format(currentTime));
+                        databaseParkings.child(parkingID).child("parkingHistory").setValue(currentParking.getParkingHistory());
+
+                        addTransaction(sdf.format(currentTime));
+                        addNotification(parkingID, address, sdf.format(currentTime), sdf.format(endTime));
 
                         Intent intent1 = new Intent(ParkingPaymentActivity.this, MainActivity.class);
                         startActivity(intent1);
@@ -175,7 +200,7 @@ public class ParkingPaymentActivity extends AppCompatActivity {
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             Address obj = addresses.get(0);
-            String add = obj.getAddressLine(0);
+            String add = obj.getLocality() + ", " + obj.getAdminArea();
 
             Log.v("IGA", "Address" + add);
             return add;
@@ -189,5 +214,16 @@ public class ParkingPaymentActivity extends AppCompatActivity {
             Toast.makeText(ParkingPaymentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             return "";
         }
+    }
+
+    private void addNotification(String parkingID, String address, String currentTime, String endTime){
+//        Date currentTime = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        String dateString = sdf.format(currentTime);
+        String notificationID = databaseNotification.push().getKey();
+        String message = "You sucessfully pay for parking " + parkingID + " at " + address + " starting at " + currentTime + " and end at " + endTime;
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Notification notification = new Notification(notificationID, userID, message, currentTime);
+        databaseNotification.child(notificationID).setValue(notification);
     }
 }

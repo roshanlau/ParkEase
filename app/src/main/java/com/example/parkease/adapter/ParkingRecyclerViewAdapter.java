@@ -2,8 +2,10 @@ package com.example.parkease.adapter;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parkease.R;
 import com.example.parkease.object.Parking;
+import com.example.parkease.ui.ParkingPaymentActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,27 +54,31 @@ public class ParkingRecyclerViewAdapter extends RecyclerView.Adapter<ParkingRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ParkingViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvParkingID.setText(parkingList.get(position).getParkingSpaceID());
         holder.tvParkingLocation.setText(getAddress(parkingList.get(position).getLatitude(), parkingList.get(position).getLongitude()));
-
 
         holder.btnReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent startIntent = new Intent(context, ParkingPaymentActivity.class);
+                startIntent.putExtra("parkingID", parkingList.get(position).getParkingSpaceID());
+                context.startActivity(startIntent);
             }
         });
 
         holder.btnDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194");
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + parkingList.get(position).getLatitude() + "," + parkingList.get(position).getLongitude() );
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 context.startActivity(mapIntent);
             }
         });
+
+        holder.tbStatus.setBackgroundColor(Color.GREEN);
+        holder.tbStatus.setText("Available");
 
     }
 
