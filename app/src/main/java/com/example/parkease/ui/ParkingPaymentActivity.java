@@ -217,9 +217,6 @@ public class ParkingPaymentActivity extends AppCompatActivity {
     }
 
     private void addNotification(String parkingID, String address, String currentTime, String endTime){
-//        Date currentTime = new Date();
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        String dateString = sdf.format(currentTime);
         String notificationID = databaseNotification.push().getKey();
         String message = "You sucessfully pay for parking " + parkingID + " at " + address + " starting at " + currentTime + " and end at " + endTime;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();

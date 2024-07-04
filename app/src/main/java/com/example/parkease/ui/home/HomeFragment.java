@@ -112,23 +112,18 @@ public class HomeFragment extends Fragment {
                 intentIntegrator.forSupportFragment(HomeFragment.this).initiateScan();
             }
         });
-
-
-
         return root;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-
         if(intentResult != null){
             String contents = intentResult.getContents();
             if(contents != null){
                 //start pay parking activity
                 //find parking status in firebase, if available then proceed to payment
                 //add extra the parking id from the qrscanner
-
                 databaseParkings.child(intentResult.getContents()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {

@@ -120,7 +120,6 @@ public class ProfileFragment extends Fragment {
                     etDOB.setEnabled(false);
                     btnLogout.setEnabled(true);
 
-                    Toast.makeText(getActivity(), currentBalance, Toast.LENGTH_SHORT).show();
                     User updatedUser = new User(
                             currentUserUid,
                             etName.getText().toString(),
@@ -141,10 +140,6 @@ public class ProfileFragment extends Fragment {
                             }
                         }
                     });
-
-
-
-
                 }
             }
         });
